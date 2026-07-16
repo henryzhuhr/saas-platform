@@ -1,0 +1,6 @@
+[project]
+name = "saas-platform"
+version = "0.1.0"
+description = "SaaS Platform Control Plane monorepo"
+requires-python = ">=3.14"
+dependencies = []

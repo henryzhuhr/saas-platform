@@ -1,0 +1,36 @@
+{
+  "name": "saas-platform",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "SaaS Platform Control Plane monorepo",
+  "scripts": {
+    "docs:lint": "markdownlint-cli2 \"**/*.md\" \"#node_modules/**\" \"#.venv/**\" \"#.git/**\"",
+    "docs:format": "markdownlint-cli2 --fix \"**/*.md\" \"#node_modules/**\" \"#.venv/**\" \"#.git/**\"",
+    "docs:map": "node --experimental-strip-types scripts/check-docs-map.ts",
+    "docs:map:json": "node --experimental-strip-types scripts/check-docs-map.ts --json",
+    "docs:check": "npm run docs:lint && npm run docs:map",
+    "lint": "npm run docs:check",
+    "format": "npm run docs:format"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/henryzhuhr/saas-platform.git"
+  },
+  "keywords": [
+    "saas",
+    "platform",
+    "monorepo"
+  ],
+  "packageManager": "npm@12.0.1",
+  "engines": {
+    "node": ">=24"
+  },
+  "bugs": {
+    "url": "https://github.com/henryzhuhr/saas-platform/issues"
+  },
+  "homepage": "https://github.com/henryzhuhr/saas-platform#readme",
+  "devDependencies": {
+    "markdownlint-cli2": "^0.23.0"
+  }
+}

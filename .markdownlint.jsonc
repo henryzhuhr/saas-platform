@@ -1,0 +1,31 @@
+// https://github.com/DavidAnson/markdownlint
+{
+    "$schema": "https://raw.githubusercontent.com/DavidAnson/markdownlint/main/schema/markdownlint-config-schema.json",
+    "default": true,
+    "MD013": false,
+    "MD024": {
+        "siblings_only": true
+    },
+    "MD033": {
+        "allowed_elements": [
+            "a",
+            "abbr",
+            "br",
+            "code",
+            "del",
+            "details",
+            "div",
+            "img",
+            "ins",
+            "kbd",
+            "mark",
+            "p",
+            "pre",
+            "script",
+            "span",
+            "sub",
+            "summary",
+            "sup"
+        ]
+    }
+}

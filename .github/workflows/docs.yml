@@ -1,0 +1,47 @@
+name: Documentation
+
+on:
+  pull_request:
+    paths:
+      - "**/*.md"
+      - ".markdownlint.jsonc"
+      - "scripts/check-docs-map.ts"
+      - "package.json"
+      - ".github/workflows/docs.yml"
+  push:
+    branches:
+      - main
+    paths:
+      - "**/*.md"
+      - ".markdownlint.jsonc"
+      - "scripts/check-docs-map.ts"
+      - "package.json"
+      - ".github/workflows/docs.yml"
+
+permissions:
+  contents: read
+
+concurrency:
+  group: docs-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  lint:
+    name: Lint and verify documentation map
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v6
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v6
+        with:
+          node-version: 24
+
+      - name: Install documentation tooling
+        run: npm install --ignore-scripts --no-package-lock
+
+      - name: Lint Markdown and verify indexes
+        run: npm run docs:check
