@@ -8,7 +8,7 @@
 | 设计容量 | 10,000 个活跃租户、1,000,000 个注册用户 |
 | 技术策略 | 逻辑架构技术中立，具体选型由 ADR 决定 |
 
-本文描述 SaaS Platform 的边界、领域、交互、规模策略和架构不变量。详细需求见[用户需求](docs/requirements/user-requirements.md)、[系统需求](docs/requirements/system-requirements.md)和[术语表](docs/requirements/glossary.md)。
+本文描述 SaaS Platform 的边界、领域、交互、规模策略和架构不变量。产品级需求见[用户需求](docs/requirements/user-requirements.md)和[系统需求](docs/requirements/system-requirements.md)，领域细节见[模块需求地图](docs/requirements/modules/README.md)，需求到验收的关系见[追踪矩阵](docs/requirements/traceability.md)。
 
 ## 1. 架构驱动因素
 

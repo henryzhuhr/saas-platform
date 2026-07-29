@@ -72,16 +72,16 @@ saas-platform/
 
 ## 4. 平台模块职责
 
-| 模块 | 负责 | 不负责 |
-| --- | --- | --- |
-| `iam` | 身份、认证、会话、角色、权限、策略、服务身份 | 订阅、权益、导航、业务数据 |
-| `tenant` | 租户、成员、组织、标签、生命周期、隔离策略 | 凭证、产品套餐、业务资源 |
-| `subscription` | 产品、功能、套餐版本、订阅状态和周期 | 支付、财务账单、用户授权 |
-| `entitlement` | 租户权益、配额、覆盖、用量语义 | 角色权限、业务计费、导航结构 |
-| `application` | 应用、版本、清单、审核、状态、租户开通 | 业务实现和业务数据 |
-| `navigation` | 应用入口、导航树、排序、可见性和解释 | 后端授权、网络流量路由 |
-| `routing` | 流量规则、灰度策略、发布快照、分发和回滚 | 网关运行时实现、页面路由 |
-| `audit` | 审计契约、关键事件、完整性、查询和留存 | 普通调试日志、业务分析仓库 |
+| 模块 | 负责 | 不负责 | 详细需求 |
+| --- | --- | --- | --- |
+| `iam` | 身份、认证、会话、角色、权限、策略、服务身份 | 订阅、权益、导航、业务数据 | [IAM](../requirements/modules/iam.md) |
+| `tenant` | 租户、成员、组织、标签、生命周期、隔离策略 | 凭证、产品套餐、业务资源 | [Tenant](../requirements/modules/tenant.md) |
+| `subscription` | 产品、功能、套餐版本、订阅状态和周期 | 支付、财务账单、用户授权 | [Subscription](../requirements/modules/subscription.md) |
+| `entitlement` | 租户权益、配额、覆盖、用量语义 | 角色权限、业务计费、导航结构 | [Entitlement](../requirements/modules/entitlement.md) |
+| `application` | 应用、版本、清单、审核、状态、租户开通 | 业务实现和业务数据 | [Application](../requirements/modules/application.md) |
+| `navigation` | 应用入口、导航树、排序、可见性和解释 | 后端授权、网络流量路由 | [Navigation](../requirements/modules/navigation.md) |
+| `routing` | 流量规则、灰度策略、发布快照、分发和回滚 | 网关运行时实现、页面路由 | [Routing](../requirements/modules/routing.md) |
+| `audit` | 审计契约、关键事件、完整性、查询和留存 | 普通调试日志、业务分析仓库 | [Audit](../requirements/modules/audit.md) |
 
 IAM 是 NIST 术语库收录的“身份与访问管理（Identity and Access Management）”缩写，不是具体产品名称，来源见 [NIST IAM Glossary](https://csrc.nist.gov/glossary/term/Identity_and_access_management)。
 
