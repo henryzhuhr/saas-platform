@@ -5,13 +5,15 @@
   "type": "module",
   "description": "SaaS Platform Control Plane monorepo",
   "scripts": {
-    "docs:lint": "markdownlint-cli2 \"**/*.md\" \"#node_modules/**\" \"#.venv/**\" \"#.git/**\"",
-    "docs:format": "markdownlint-cli2 --fix \"**/*.md\" \"#node_modules/**\" \"#.venv/**\" \"#.git/**\"",
+    "docs:lint": "markdownlint-cli2 \"**/*.md\" \"#**/node_modules/**\" \"#**/.venv/**\" \"#**/.git/**\"",
+    "docs:format": "markdownlint-cli2 --fix \"**/*.md\" \"#**/node_modules/**\" \"#**/.venv/**\" \"#**/.git/**\"",
     "docs:map": "node --experimental-strip-types scripts/check-docs-map.ts",
     "docs:map:json": "node --experimental-strip-types scripts/check-docs-map.ts --json",
     "docs:check": "npm run docs:lint && npm run docs:map",
-    "lint": "npm run docs:check",
-    "format": "npm run docs:format"
+    "go:check": "go -C platform/iam vet ./... && go -C platform/iam test -race ./...",
+    "test": "go -C platform/iam test ./...",
+    "lint": "npm run docs:check && go -C platform/iam vet ./...",
+    "format": "npm run docs:format && gofmt -w platform/iam/cmd platform/iam/internal"
   },
   "repository": {
     "type": "git",

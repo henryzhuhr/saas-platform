@@ -5,6 +5,7 @@
 ## 文档
 
 - [Markdown 与文档地图规范](markdown.md)：Markdown 格式、分层索引、本地链接、lint 和维护流程。
+- [Go 工程规范](go.md)：独立模块、cmd/internal 布局、职责拆分、详细注释及测试规则。
 - [依赖管理规范](dependencies.md)：依赖清单、锁文件和当前临时策略。
 - [版本演进与分支管理规范](versioning-and-branching.md)：产品版本、契约演进、分支、发布、回补和维护周期。
 

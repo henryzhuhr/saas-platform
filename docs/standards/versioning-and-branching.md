@@ -218,6 +218,28 @@ codex/docs-versioning-policy
 - 合并后删除远端短期分支。
 - 禁止从未合并功能分支继续派生多层功能分支；确有依赖时应明确堆叠关系和合并顺序。
 
+### 5.5 IAM 子仓库与同名分支协作
+
+IAM 现在由 `git@github.com:henryzhuhr/saas-platform-iam.git` 独立维护，在 `platform/iam` 通过 Git submodule 集成；主项目只记录地址及固定 gitlink。IAM 使用本规范相同的 `main`、按需 `release/X.Y`、短期分支、提交消息与 PR 流程，不新增长期 `develop`。
+
+父子仓库共同修改一个能力时，工作分支名称必须完全一致，例如两者都为 `codex/feat-iam`。仅修改父项目且不涉及 IAM 时不强制创建空的子仓库分支。子仓库 `main` 的首次空实现初始化是唯一引导例外，之后功能仍经 PR 合入。
+
+`.gitmodules` 的 `branch = .` 仅在显式执行 `update --remote` 时选择同名远端分支，不会自动切换本地分支。普通 clone、CI 和发布只执行 `git submodule update --init --recursive`，检出父项目记录的精确 SHA；初始 detached HEAD 是正常的固定版本检出，修改前需创建/切换同名工作分支。
+
+提交与推送顺序：
+
+1. 在 IAM 完成实现、文档及测试，提交并推送同名子仓库分支。
+2. 确认子仓库工作树干净、子提交可从远端取得。
+3. 在父项目 `git add platform/iam`，提交固定 SHA 和相应集成变更。
+4. 父项目使用 `git push --recurse-submodules=check` 防止推送不可取得的子提交。
+5. 先通过 IAM PR 合入子仓库目标主干，再把父项目 PR 的 gitlink 更新到实际合并后的子提交；Squash/Rebase 后不可继续指向待删除分支的旧 SHA。
+
+分支名相同不代表 commit SHA 相同，也不意味着自动合并/重置。正式产品版本和发布 Tag 仍按本规范统一管理，Release Manifest 额外记录 IAM 来源仓库与 SHA；尚不引入独立组件版本节奏。回滚通过评审回退父 gitlink，数据库迁移另行评估。
+
+IAM 自带 Go、Markdown 与地图 CI；父项目 CI 递归取得锁定版本后验证集成。私有仓库场景需在父项目配置 `SUBMODULES_READ_TOKEN` Actions secret，使用仅能读取父、子两个仓库 Contents 的细粒度 token；默认 `GITHUB_TOKEN` 只具有当前仓库权限。工作流不持久化凭据，不创建或上传本机凭据；缺少 secret 时私有子模块检出会失败。
+
+背景和取舍见 [ADR-0008](../architecture/decisions/0008-iam-git-submodule.md)。行为依据：[Git gitmodules](https://git-scm.com/docs/gitmodules)、[Git submodule](https://git-scm.com/docs/git-submodule)、[actions/checkout](https://github.com/actions/checkout)。
+
 ## 6. Pull Request 与提交
 
 ### 6.1 合并要求

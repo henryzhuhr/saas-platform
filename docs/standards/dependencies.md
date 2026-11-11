@@ -5,6 +5,10 @@
 | 状态 | 临时策略，正式发布前必须复审 |
 | 适用范围 | 根 Python 与 npm 工具项目 |
 
+Go IAM 实现使用 `platform/iam/go.mod` 与 `platform/iam/go.sum`，两者均跟踪，仓库根目录不建立 Go 模块；`go.sum` 记录模块内容校验值。原有暂不提交 `uv.lock` 和 `package-lock.json` 的决定保持不变。正式发布前仍需完成全仓库依赖可复现性与供应链验收。
+
+IAM 的 Go 清单、校验值和文档工具清单在独立子仓库跟踪；父项目通过 gitlink 锁定它们对应的源码提交，不复制其依赖文件。克隆与 CI 必须初始化这个固定提交，不用 `submodule update --remote` 替换。
+
 ## 当前策略
 
 - 提交 `pyproject.toml` 和 `package.json`，把它们作为直接依赖声明。

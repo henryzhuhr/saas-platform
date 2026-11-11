@@ -4,6 +4,8 @@ on:
   pull_request:
     paths:
       - "**/*.md"
+      - "platform/iam"
+      - ".gitmodules"
       - ".markdownlint.jsonc"
       - "scripts/check-docs-map.ts"
       - "package.json"
@@ -13,6 +15,8 @@ on:
       - main
     paths:
       - "**/*.md"
+      - "platform/iam"
+      - ".gitmodules"
       - ".markdownlint.jsonc"
       - "scripts/check-docs-map.ts"
       - "package.json"
@@ -34,6 +38,10 @@ jobs:
     steps:
       - name: Check out repository
         uses: actions/checkout@v6
+        with:
+          submodules: recursive
+          token: ${{ secrets.SUBMODULES_READ_TOKEN || github.token }}
+          persist-credentials: false
 
       - name: Set up Node.js
         uses: actions/setup-node@v6

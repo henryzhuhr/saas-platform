@@ -8,6 +8,12 @@
 | 设计容量 | 10,000 个活跃租户、1,000,000 个注册用户 |
 | 技术策略 | 逻辑架构技术中立，具体选型由 ADR 决定 |
 
+IAM 首期实现采用维护者指定的 Go + Gin，存储与身份集成通过适配器隔离；具体范围和验证限制见 [ADR-0004](docs/architecture/decisions/0004-go-gin-iam-implementation.md) 与 [IAM 实现说明](docs/architecture/iam-implementation.md)。该实现不代表全部领域选型或系统容量验收完成。
+
+IAM 目录已按 [ADR-0005](docs/architecture/decisions/0005-iam-module-layout-and-comments.md) 收敛为 `platform/iam` 独立 Go 模块：模块内包含 `cmd`、`internal`、依赖元数据、SQL 和全部测试。逻辑领域划分与实际 Go 包路径分别维护，不通过包路径把平台内部实现公开给业务应用。
+
+按 [ADR-0008](docs/architecture/decisions/0008-iam-git-submodule.md)，IAM 源码改由独立 Git 仓库维护，仍在 `platform/iam` 通过 submodule 集成。父项目锁定源码提交；同名开发分支不改变固定提交、领域所有权或产品统一版本规则。
+
 本文描述 SaaS Platform 的边界、领域、交互、规模策略和架构不变量。产品级需求见[用户需求](docs/requirements/user-requirements.md)和[系统需求](docs/requirements/system-requirements.md)，领域细节见[模块需求地图](docs/requirements/modules/README.md)，需求到验收的关系见[追踪矩阵](docs/requirements/traceability.md)。
 
 ## 1. 架构驱动因素

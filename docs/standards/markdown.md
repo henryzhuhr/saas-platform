@@ -31,6 +31,8 @@ npm run docs:check
 
 第三方依赖目录如 `node_modules/` 和本地虚拟环境不属于仓库自有文档，不参与检查。
 
+自有 Git 子模块中的文档仍需要 lint 和地图校验；父仓库执行检查前必须初始化锁定的子模块提交，不能把未获取的文档当成检查成功。IAM 子仓库也保存自己的配置、工具和 CI，可独立执行同名文档命令。私有子模块检出凭据由 Actions secret 注入，不能写入配置文件或日志。
+
 地图检查器使用 Node.js 24 的原生 TypeScript 类型擦除直接运行，不引入额外 TypeScript 编译运行时。脚本只能使用可擦除的类型语法；如果未来需要完整静态类型检查，再单独引入 `typescript` 和 `tsconfig.json`。
 
 Pull Request 或 `main` 分支上的文档相关变更会触发 Documentation 工作流。根据当前临时[依赖管理规范](dependencies.md)，CI 使用 `npm install --ignore-scripts --no-package-lock` 安装工具，并执行 `npm run docs:check`；检查失败时不得合并。

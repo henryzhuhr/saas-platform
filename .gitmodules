@@ -1,0 +1,4 @@
+[submodule "platform/iam"]
+	path = platform/iam
+	url = git@github.com:henryzhuhr/saas-platform-iam.git
+	branch = .

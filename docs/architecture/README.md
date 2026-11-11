@@ -6,6 +6,7 @@
 
 - [架构总览](../../ARCHITECTURE.md)：系统上下文、逻辑架构、领域模块、核心流程、安全、部署和演进路线。
 - [项目结构与模块边界](project-structure.md)：Monorepo 目录、领域/部署/契约边界、依赖规则和规模约束。
+- [IAM 实现说明导航](iam-implementation.md)：指向 IAM 独立项目内的范围、依赖、验证及待完成事项正文。
 
 ## 决策记录
 

@@ -6,4 +6,8 @@
 - `events/`：领域事件 Schema。
 - `manifests/`：应用清单 Schema。
 
-具体协议和描述格式在需求与技术方案评审后确定；当前不加入可能被误认为稳定契约的占位 Schema。
+## 当前契约
+
+- [IAM HTTP API v1 导航](iam-v1.md)：指向 IAM 独立项目内唯一维护的接口、错误和安全语义正文。
+
+IAM 接口当前为 `Experimental`；其他领域的协议和描述格式仍待各自评审。

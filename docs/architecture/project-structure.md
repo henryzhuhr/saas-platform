@@ -16,7 +16,7 @@ saas-platform/
 ├── docs/                   # 需求、架构、标准和 ADR
 ├── frontend/               # 租户门户、平台控制台和公共前端能力
 ├── platform/               # 平台控制面领域与应用逻辑
-│   ├── iam/                # 身份与访问管理
+│   ├── iam/                # Git 子模块；独立 Go 模块、cmd、internal、SQL 与测试
 │   ├── tenant/             # 租户、成员、组织与隔离策略
 │   ├── subscription/       # 产品、套餐版本与订阅
 │   ├── entitlement/        # 权益、配额与用量语义
@@ -32,7 +32,11 @@ saas-platform/
 └── tests/                  # 集成、端到端、容量、安全与恢复测试
 ```
 
-当前只创建职责清晰的目录和说明，不用空实现预设编程语言、框架、存储、网关或部署平台。
+IAM 的全部实现位于独立模块 `platform/iam`：`cmd/iam-api` 负责启动，`internal/iam` 负责领域与用例，其他 `internal` 包承载 Gin、PostgreSQL、安全算法、远端集成及测试夹具。仓库根目录没有 Go 模块；`services/platform-api` 和根 `tests` 继续保留各自未来职责地图，不承载 IAM 源码。具体规则见 [Go 工程规范](../standards/go.md) 和 [ADR-0005](decisions/0005-iam-module-layout-and-comments.md)。
+
+持久化由 `internal/model` 中的 GORM 表模型和仓储承担，数据库仍为 PostgreSQL；迁移、事务、行锁与 outbox 全部从该包组装，见 [ADR-0006](decisions/0006-iam-gorm-model-layer.md)。Go 官方模块布局与项目自行选择的 ORM/模型包分工应分别说明。
+
+IAM 通过 Git submodule 挂载，独立仓库为 `git@github.com:henryzhuhr/saas-platform-iam.git`，路径不变。父仓库记录 `.gitmodules` 和固定 gitlink；子仓库保存技术栈、模块内命令、配置、许可证、API、实现说明、文档工具和 CI。API/实现正文继续归 `platform/iam/docs`，父仓库旧路径仅保留导航。同名分支协作不代替固定提交，决策见 [ADR-0008](decisions/0008-iam-git-submodule.md)，此前独立项目的历史见 [ADR-0007](decisions/0007-iam-standalone-subproject.md)。
 
 目录中的 README 是面向项目成员的局部说明和导航入口。其设计背景见 [ADR-0001](decisions/0001-repository-knowledge-and-readme-map.md)。
 

@@ -16,3 +16,5 @@
 | Audit | [audit/README.md](audit/README.md) | 审计契约、完整性、查询和运营治理 | [Audit 需求](../docs/requirements/modules/audit.md) |
 
 完整模块边界见 [项目结构与模块边界](../docs/architecture/project-structure.md)。
+
+IAM 使用独立 Git 仓库，通过子模块挂载于原 `iam/` 目录；开始工作前初始化父项目锁定的提交。共同修改时父子仓库保持同名分支，先推 IAM 提交再更新父指针，具体流程见 [版本与分支规范](../docs/standards/versioning-and-branching.md)。

@@ -4,7 +4,7 @@ SaaS Platform 是一个面向多业务应用的 SaaS 平台 Monorepo。平台以
 
 ## 项目状态
 
-当前项目处于需求、架构和项目框架阶段。设计容量基线为 10,000 个活跃租户和 1,000,000 个注册用户。仓库已建立平台底座、业务应用、服务、前端、部署、SDK 和文档边界，但暂不包含业务实现代码。
+当前项目正在进行需求评审，并已按维护者要求启动 Go + Gin 的 IAM 首期实现。设计容量基线为 10,000 个活跃租户和 1,000,000 个注册用户；该规模尚未完成容量验收。其他平台领域仍处于需求和框架阶段。
 
 ## 解决的问题
 
@@ -73,11 +73,17 @@ SaaS 平台控制面
 
 ## 开始参与
 
-当前阶段主要工作是完善需求、架构、契约和项目框架。提交文档或框架变更前，运行：
+IAM 由独立仓库 `git@github.com:henryzhuhr/saas-platform-iam.git` 维护，通过 Git submodule 挂载于 `platform/iam`。主项目锁定具体提交；共同开发使用同名分支，先推子仓库再更新父指针。技术栈和启动步骤见 [IAM 项目](platform/iam/README.md)，接口见 [IAM v1 导航](api/iam-v1.md)，覆盖范围见 [IAM 实现说明导航](docs/architecture/iam-implementation.md)。IAM 需要 Go 1.26.11+，服务运行需要 PostgreSQL；Node.js 24+ 只用于文档工具。
+
+首次克隆使用 `git clone --recurse-submodules git@github.com:henryzhuhr/saas-platform.git`；已有工作区先运行 `git submodule update --init --recursive`。私有 IAM 仓库需要访问权限；主项目 CI 还需配置跨仓库只读的 `SUBMODULES_READ_TOKEN` secret，详细协作和合并顺序见 [版本与分支规范](docs/standards/versioning-and-branching.md)。
+
+提交变更前，运行：
 
 ```sh
 npm install
 npm run docs:check
+go -C platform/iam test -race ./...
+go -C platform/iam vet ./...
 ```
 
 `docs:check` 会检查 Markdown 格式、本地链接和分层文档索引。

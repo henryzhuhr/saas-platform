@@ -46,6 +46,14 @@
 
 `pyproject.toml` 和 `package.json` 当前用于项目元数据及仓库工具。引入运行时依赖或框架仍需明确任务授权。
 
+维护者已明确授权 Go + Gin IAM 实现。IAM 必须是位于 `platform/iam`、声明 `module iam` 的独立 Go 模块，内部导入使用 `iam/internal/...`，包含其 `go.mod`、入口、私有代码、适配器、SQL 和全部测试；不在仓库根目录或 `services/`、`tests/` 分散 IAM Go 代码。相关范围见 [IAM 实现说明](docs/architecture/iam-implementation.md)；其他领域仍遵守上述阶段限制。
+
+IAM 使用独立仓库 `git@github.com:henryzhuhr/saas-platform-iam.git`，通过 Git submodule 保持 `platform/iam` 目录；必要配置、许可证、文档、文档校验和 CI 随子仓库维护，必需文档不得依赖父路径。先初始化父项目锁定提交，再阅读子模块自己的 `AGENTS.md`；共同开发保持同名分支。先提交并推送子仓库，再提交父 gitlink，推送父仓库使用 `--recurse-submodules=check`。普通检出/CI 不使用 `update --remote`，不得为了同步分支覆盖已有改动。迁移与合并顺序见 [ADR-0008](docs/architecture/decisions/0008-iam-git-submodule.md)。
+
+Go 目录与注释遵循 [Go 工程规范](docs/standards/go.md)：模块内使用 `cmd/` 与 `internal/`，包和文件按职责组织；导出符号写 GoDoc，关键安全判断、状态传播、事务与跨服务副作用写详细中文注释，不再将全部用例或路由集中在一个文件。
+
+IAM 持久化代码统一在 `platform/iam/internal/model`，使用 GORM；表模型、查询/写入、事务、迁移与 outbox 保持职责拆分，领域包只依赖存储端口。不再维护并行的 `internal/postgres` 手写驱动仓储。选择与兼容策略见 [ADR-0006](docs/architecture/decisions/0006-iam-gorm-model-layer.md)。
+
 ## 4. 强制工作流
 
 开始修改前：
@@ -84,6 +92,8 @@ npm run docs:lint      # lint 全部仓库自有 Markdown
 npm run docs:format    # 自动修复可格式化问题
 npm run docs:map       # 校验本地链接和逐层 README 索引
 npm run docs:check     # 提交前完整文档检查
+go -C platform/iam test -race ./...  # IAM 用例、HTTP 与可选数据库集成测试
+go -C platform/iam vet ./...        # IAM 静态检查
 ```
 
 文档地图必须满足：
